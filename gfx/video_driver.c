@@ -1348,7 +1348,7 @@ bool video_monitor_fps_statistics(double *refresh_rate,
    *deviation        = sqrt((double)accum_var / (samples - 1)) / avg;
 
    if (refresh_rate)
-      *refresh_rate  = 1000000.0 / avg;
+      *refresh_rate  = video_driver_core_hz;
 
    if (sample_points)
       *sample_points = samples;
