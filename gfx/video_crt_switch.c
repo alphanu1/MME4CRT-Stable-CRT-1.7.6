@@ -40,6 +40,8 @@ static unsigned ra_tmp_height     = 0;
 static unsigned ra_set_core_hz    = 0;
 static unsigned orig_width        = 0;
 static unsigned orig_height       = 0;
+static unsigned crt_vsync_interval_t = 0;
+static unsigned crt_vsync_interval = 0;
 static int crt_center_adjust      = 0;
 static int crt_tmp_center_adjust  = 0;
 static double p_clock             = 0;
@@ -181,6 +183,7 @@ void crt_switch_res_core(unsigned width, unsigned height,
       float hz, unsigned crt_mode,
       int crt_switch_center_adjust, int monitor_index, bool dynamic)
 {
+  
    /* ra_core_hz float passed from within
     * void video_driver_monitor_adjust_system_rates(void) */
    if (width == 4 )
@@ -188,7 +191,60 @@ void crt_switch_res_core(unsigned width, unsigned height,
       width = 320;
       height = 240;
    }
+   
+   
+     
+   
+   //printf("Interval timer: %d CRT_Adaptive_Vsync : %d\n",crt_vsync_interval_t, crt_vsync_interval);
+   
+  if (height > 350)
+  { 
+      if (crt_vsync_interval_t  == 0)
+      {	   
+   
+         crt_vsync_interval = 1;
+   
+      
+         crt_switch_vsync(crt_vsync_interval); 
+         video_driver_apply_state_changes();
+          printf("CRT VSYNC setting : %d \n", crt_vsync_interval);
+          
+      }
+   
+      crt_vsync_interval_t++;
+      
+      if (crt_vsync_interval_t == 1)
+      {
+   
+         crt_vsync_interval = 0;
+             
+         crt_switch_vsync(crt_vsync_interval); 
+         video_driver_apply_state_changes();
+        
+       
+      }
+      if (crt_vsync_interval_t == 9)
+         crt_vsync_interval_t = 0;
+   
+  } 
+   
+        
+   
+  if (height <= 350)
+  { 
 
+     if (crt_vsync_interval == 0)
+     {
+         crt_vsync_interval = 1;
+         crt_switch_vsync(crt_vsync_interval); 
+         video_driver_apply_state_changes();
+          
+      }
+
+   
+   } 
+   
+     
    ra_core_height = height;
    ra_core_hz     = hz;
 

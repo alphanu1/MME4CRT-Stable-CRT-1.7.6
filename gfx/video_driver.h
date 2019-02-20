@@ -1103,6 +1103,8 @@ void video_driver_build_info(video_frame_info_t *video_info);
 
 void video_driver_reinit(void);
 
+void crt_switch_vsync(int crt_interval);
+
 void video_driver_get_window_title(char *buf, unsigned len);
 
 void video_driver_get_record_status(

@@ -2641,6 +2641,7 @@ void video_driver_frame(const void *data, unsigned width,
    /* trigger set resolution*/
    if (video_info.crt_switch_resolution)
    {
+	 //  video_driver_apply_state_changes();
       video_driver_crt_switching_active = true;
 
       if (video_info.crt_switch_resolution_super == 2560)
@@ -2667,7 +2668,10 @@ void crt_switch_driver_reinit(void)
 {
    video_driver_reinit();
 }
-
+void crt_switch_vsync(int crt_interval)
+{
+   current_video_context.swap_interval(video_context_data, crt_interval);
+}
 void video_driver_display_type_set(enum rarch_display_type type)
 {
    video_driver_display_type = type;
