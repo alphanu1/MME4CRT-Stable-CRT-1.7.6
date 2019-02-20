@@ -1329,7 +1329,7 @@ bool video_monitor_fps_statistics(double *refresh_rate,
    /* Measure statistics on frame time (microsecs), *not* FPS. */
    for (i = 0; i < samples; i++)
    {
-      accum += video_driver_frame_time_samples[i];
+      accum += video_driver_frame_time_samples[i]*2;
 #if 0
       RARCH_LOG("[Video]: Interval #%u: %d usec / frame.\n",
             i, (int)frame_time_samples[i]);
