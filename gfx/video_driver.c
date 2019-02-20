@@ -1315,43 +1315,6 @@ bool video_monitor_fps_statistics(double *refresh_rate,
    retro_time_t accum_var = 0;
    unsigned samples       = 0;
 
-#ifdef HAVE_THREADS
-   if (video_driver_is_threaded_internal())
-      return false;
-#endif
-
-   samples = MIN(MEASURE_FRAME_TIME_SAMPLES_COUNT,
-         (unsigned)video_driver_frame_time_count);
-
-   if (samples < 2)
-      return false;
-
-   /* Measure statistics on frame time (microsecs), *not* FPS. */
-   for (i = 0; i < samples; i++)
-   {
-      accum += video_driver_frame_time_samples[i];
-#if 0
-      RARCH_LOG("[Video]: Interval #%u: %d usec / frame.\n",
-            i, (int)frame_time_samples[i]);
-#endif
-   }
-
-   avg = accum / samples;
-
-   /* Drop first measurement. It is likely to be bad. */
-   for (i = 0; i < samples; i++)
-   {
-      retro_time_t diff = video_driver_frame_time_samples[i] - avg;
-      accum_var         += diff * diff;
-   }
-
-   *deviation        = sqrt((double)accum_var / (samples - 1)) / avg;
-
-   if (refresh_rate)
-      *refresh_rate  = video_driver_core_hz;
-
-   if (sample_points)
-      *sample_points = samples;
 
    return true;
 }
