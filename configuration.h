@@ -204,8 +204,8 @@ typedef struct settings
       bool quick_menu_show_recording;
       bool quick_menu_show_streaming;
       bool kiosk_mode_enable;
-
       bool crt_switch_custom_refresh_enable;
+      bool crt_debug_mode;
 
       /* Netplay */
       bool netplay_public_announce;

@@ -1315,6 +1315,8 @@ static struct config_bool_setting *populate_settings_bool(settings_t *settings, 
    unsigned count                      = 0;
 
    SETTING_BOOL("crt_switch_resolution_use_custom_refresh_rate", &settings->bools.crt_switch_custom_refresh_enable, true, false, false);
+   SETTING_BOOL("crt_debug_mode",                &settings->bools.crt_debug_mode, true, false, false);
+   
    SETTING_BOOL("automatically_add_content_to_playlist", &settings->bools.automatically_add_content_to_playlist, true, automatically_add_content_to_playlist, false);
    SETTING_BOOL("ui_companion_start_on_boot",    &settings->bools.ui_companion_start_on_boot, true, ui_companion_start_on_boot, false);
    SETTING_BOOL("ui_companion_enable",           &settings->bools.ui_companion_enable, true, ui_companion_enable, false);
