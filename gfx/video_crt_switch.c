@@ -45,6 +45,7 @@ static unsigned crt_vsync_interval = 0;
 static int crt_center_adjust      = 0;
 static int crt_tmp_center_adjust  = 0;
 static double p_clock             = 0;
+static bool crt_switch_debug      = false;
 
 static bool first_run             = true;
 
@@ -89,6 +90,14 @@ static void switch_crt_hz(void)
    video_monitor_set_refresh_rate(ra_set_core_hz);
 
    ra_tmp_core_hz = ra_core_hz;
+}
+
+bool crt_debug_mode_active(void)
+{
+   if (crt_switch_debug == true)
+      return true;
+   else
+      return false;	
 }
 
 void crt_aspect_ratio_switch(unsigned width, unsigned height)
@@ -181,16 +190,24 @@ static void crt_screen_setup_aspect(unsigned width, unsigned height)
 
 void crt_switch_res_core(unsigned width, unsigned height,
       float hz, unsigned crt_mode,
-      int crt_switch_center_adjust, int monitor_index, bool dynamic)
+      int crt_switch_center_adjust, int monitor_index, 
+      bool dynamic, bool crt_debug_mode)
 {
   
    /* ra_core_hz float passed from within
     * void video_driver_monitor_adjust_system_rates(void) */
+   crt_switch_debug = crt_debug_mode;
+   
    if (width == 4 )
    {
       width = 320;
       height = 240;
    }
+   
+   
+     
+   
+   //printf("Interval timer: %d CRT_Adaptive_Vsync : %d\n",crt_vsync_interval_t, crt_vsync_interval);
    
   if (height > 350)
   { 
@@ -202,6 +219,7 @@ void crt_switch_res_core(unsigned width, unsigned height,
       
          crt_switch_vsync(crt_vsync_interval); 
          video_driver_apply_state_changes();
+         
           
       }
    
@@ -214,12 +232,15 @@ void crt_switch_res_core(unsigned width, unsigned height,
              
          crt_switch_vsync(crt_vsync_interval); 
          video_driver_apply_state_changes();
-               
+        
+       
       }
       if (crt_vsync_interval_t == 9)
          crt_vsync_interval_t = 0;
    
-  }     
+  } 
+   
+        
    
   if (height <= 350)
   { 
@@ -230,9 +251,10 @@ void crt_switch_res_core(unsigned width, unsigned height,
          crt_switch_vsync(crt_vsync_interval); 
          video_driver_apply_state_changes();
           
-     }
+      }
+
    
-  } 
+   } 
    
      
    ra_core_height = height;
@@ -266,7 +288,7 @@ void crt_switch_res_core(unsigned width, unsigned height,
 
    ra_tmp_height  = ra_core_height;
    ra_tmp_width   = ra_core_width;
-    crt_tmp_center_adjust = crt_center_adjust;
+   crt_tmp_center_adjust = crt_center_adjust;
 
    /* Check if aspect is correct, if not change */
    if (video_driver_get_aspect_ratio() != fly_aspect)
@@ -274,6 +296,7 @@ void crt_switch_res_core(unsigned width, unsigned height,
       video_driver_set_aspect_ratio_value((float)fly_aspect);
       video_driver_apply_state_changes();
    }
+   
 }
 
 void crt_video_restore(void)

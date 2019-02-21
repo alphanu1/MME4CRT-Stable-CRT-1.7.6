@@ -2656,7 +2656,10 @@ void video_driver_frame(const void *data, unsigned width,
       else 
          video_driver_crt_dynamic_super_width = false;
       
-      crt_switch_res_core(width, height, video_driver_core_hz, video_info.crt_switch_resolution, video_info.crt_switch_center_adjust, video_info.monitor_index, video_driver_crt_dynamic_super_width);
+      crt_switch_res_core(width, height, video_driver_core_hz, 
+         video_info.crt_switch_resolution, video_info.crt_switch_center_adjust, 
+            video_info.monitor_index, video_driver_crt_dynamic_super_width, 
+               video_info.crt_debug_mode);
    }
    else if (!video_info.crt_switch_resolution)
       video_driver_crt_switching_active = false;
@@ -2746,6 +2749,7 @@ void video_driver_build_info(video_frame_info_t *video_info)
    video_info->crt_switch_resolution = settings->uints.crt_switch_resolution;
    video_info->crt_switch_resolution_super = settings->uints.crt_switch_resolution_super;
    video_info->crt_switch_center_adjust    = settings->ints.crt_switch_center_adjust;
+   video_info->crt_debug_mode        = settings->bools.crt_debug_mode;
    video_info->black_frame_insertion = settings->bools.video_black_frame_insertion;
    video_info->hard_sync             = settings->bools.video_hard_sync;
    video_info->hard_sync_frames      = settings->uints.video_hard_sync_frames;

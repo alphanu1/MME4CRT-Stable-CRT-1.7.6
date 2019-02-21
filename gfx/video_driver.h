@@ -417,6 +417,7 @@ typedef struct video_frame_info
    bool is_perfcnt_enable;
    bool menu_is_alive;
    bool msg_bgcolor_enable;
+   bool crt_debug_mode;
 
    int custom_vp_x;
    int custom_vp_y;
