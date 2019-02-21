@@ -49,6 +49,7 @@ static char crt_name[10]        = {0};
 static int crt_name_id          = 0;
 static bool crt_en              = false;
 static unsigned crtid           = 20;
+static char crt_debug_output[800] = {0};
 static XRRModeInfo crt_rrmode;
 
 typedef struct
@@ -181,11 +182,15 @@ static bool x11_display_server_set_resolution(void *data,
 
    if (width < 700)
    {
-      hfp    = width * 1.055;
+	  if (width > 320)
+         hfp    = (width * 1.055) - ((width -320/ 6);
+      else 
+         hfp    = (width * 1.055);
+         
       hbp  = width * roundw - 8;
    }else {
-      hfp  = (width * 1.055) + (width / 40);
-      hbp  = (width * roundw) + (width /24);
+      hfp  = (width * 1.055) + (width / 32);
+      hbp  = (width * roundw) + (width /18);
       xoffset = xoffset*2;
    }
    
@@ -318,6 +323,25 @@ static bool x11_display_server_set_resolution(void *data,
     }
  }
    snprintf(old_mode, sizeof(old_mode), "%s", new_mode);
+   
+     if (crt_debug_mode_active() == true)
+   {
+	  snprintf(crt_debug_output, sizeof(crt_debug_output),
+	  "\n\n************ CRTSwitchRes Debug output ************\n"
+	  "                                             \n"
+      "    CRT Resolution: %dx%d                     \n"
+      "    Refresh Rate: %lf                         \n"
+      "    Horizontal Porches:                       \n"
+      "    - Front: %d | Sync: %d | Back: %d         \n"
+      "    Vertical Porches:                         \n"
+      "    - Front: %d | Sync: %d | Back: %d         \n"
+      "                                              \n"
+      "***************************************************\n\n"
+	  , width, height, hz, hfp, hsp, hbp, vfp, vsp, vbp);
+	  
+	  printf("%s",crt_debug_output);
+   }
+   
    return true;
 }
 
