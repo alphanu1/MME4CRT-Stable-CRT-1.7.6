@@ -6701,6 +6701,10 @@ MSG_HASH(
     "CRT SwitchRes"
     )
 MSG_HASH(
+    MENU_ENUM_LABEL_VALUE_CRT_DEBUG_MODE,
+    "CRT SwitchRes debug"
+    )
+MSG_HASH(
     MENU_ENUM_SUBLABEL_CRT_SWITCH_RESOLUTION_SUPER,
     "Switch among native and ultrawide super resolutions."
     )
