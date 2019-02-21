@@ -6235,6 +6235,22 @@ static bool setting_append_list(
          (*list)[list_info->index - 1].offset_by     = -3;
          settings_data_list_current_add_flags(list, list_info, SD_FLAG_ADVANCED);
          menu_settings_list_current_add_range(list, list_info, -3, 4, 1.0, true, true);
+         
+         CONFIG_BOOL(
+               list, list_info,
+               &settings->bools.crt_debug_mode,
+               MENU_ENUM_LABEL_CRT_DEBUG_MODE,
+               MENU_ENUM_LABEL_VALUE_CRT_DEBUG_MODE,
+               audio_enable,
+               MENU_ENUM_LABEL_VALUE_OFF,
+               MENU_ENUM_LABEL_VALUE_ON,
+               &group_info,
+               &subgroup_info,
+               parent_group,
+               general_write_handler,
+               general_read_handler,
+               SD_FLAG_NONE
+               );
 
          CONFIG_BOOL(
                list, list_info,
