@@ -280,7 +280,7 @@ static bool x11_display_server_set_resolution(void *data,
             snprintf(orig_output, sizeof(orig_output), "%s", outputs->name);
          //  XRRCreateMode(dpy, window, crt_mode);           
         //  XRRAddOutputMode(dpy, screen, xid_mode);
-            if (crt_name_id == 0)
+            if (crt_name_id < 1)
             {  
                snprintf(xrandr, sizeof(xrandr), "%s && xrandr --addmode \"%s\" \"%s\" && xrandr --output \"%s\" --mode \"%s\"", xrandr_new_mode, outputs->name, new_mode, outputs->name, new_mode);
             system(xrandr);
