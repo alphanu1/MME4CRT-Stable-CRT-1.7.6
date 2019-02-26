@@ -39,7 +39,6 @@
 
 #ifdef HAVE_XRANDR
 static char xrandr[1024]        = {0};
-static char output4[512]         =  {0};
 static char crt_name[16]        = {0};
 static int crt_name_id          = 0;
 static bool crt_en              = false;
@@ -143,6 +142,7 @@ static bool x11_display_server_set_resolution(void *data,
    Window window;
    XRRScreenResources  *res = NULL;
    Display *dpy             = NULL;
+   XID xid                  = NULL;
    int i                    = 0;
    int hfp                  = 0;
    int hsp                  = 0;
@@ -259,7 +259,7 @@ static bool x11_display_server_set_resolution(void *data,
       {
          XRROutputInfo *outputs = XRRGetOutputInfo(dpy, res, res->outputs[i]);
          crt_mode = &crt_rrmode;
-      
+         xid = res->outputs[i];
 
          if (outputs->connection == RR_Connected)
          {
@@ -274,7 +274,7 @@ static bool x11_display_server_set_resolution(void *data,
             
             if (crt_name_id > 0)
             {  
-            snprintf(output4, sizeof(output4),
+            snprintf(xrandr, sizeof(xrandr),
                 "xrandr --delmode \"%s\" \"%s\"",
                 orig_output, old_mode);
             system(xrandr);
@@ -291,6 +291,7 @@ static bool x11_display_server_set_resolution(void *data,
    {
       XRROutputInfo *outputs = XRRGetOutputInfo(dpy, res, res->outputs[monitor_index]);
       crt_mode = &crt_rrmode;
+      xid = res->outputs[monitor_index];
       
       RROutput output = res->outputs[monitor_index];
 
@@ -298,18 +299,16 @@ static bool x11_display_server_set_resolution(void *data,
       {
          snprintf(orig_output, sizeof(orig_output), "%s", outputs->name);
          XRRCreateMode(dpy, window, crt_mode);
-         snprintf(xrandr, sizeof(xrandr), "xrandr --addmode \"%s\" \"%s\"",outputs->name, new_mode);
-         system(xrandr);
-         //XRRAddOutputMode(dpy, output, crt_rrmode.id);
-       //  XRRDeleteOutputMode (dpy, output,
+         XRRAddOutputMode(dpy, xid, crt_rrmode.id);
+       //  XRRDeleteOutputMode (dpy, xid,
         //            crt_old_rrmode.id);
          snprintf(xrandr, sizeof(xrandr),
                "xrandr --output \"%s\" --mode \"%s\"",
                outputs->name, new_mode);
-         system(output4);
+         system(xranndr);
          if (crt_name_id > 0)
          {  
-             snprintf(output4, sizeof(output4),
+             snprintf(xrandr, sizeof(xrandr),
                 "xrandr --delmode \"%s\" \"%s\"",
                 orig_output, old_mode);
              system(xrandr);
