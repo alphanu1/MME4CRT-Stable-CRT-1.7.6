@@ -38,18 +38,18 @@
 #include "../video_crt_switch.h" /* needed to set aspect for low res in linux */
 
 #ifdef HAVE_XRANDR
-static char xrandr[1024]        = {0};
+static char xrandr[1576]        = {0};
 static char crt_name[16]        = {0};
 static int crt_name_id          = 0;
 static bool crt_en              = false;
-static unsigned crt_id          = 20;
+static unsigned crt_id          = 200;
 static char orig_output[256]    = {0};
 static char old_mode[256]       = {0};
 static char new_mode[256]       = {0};
 static char crt_debug_output[800] = {0};
 static XRRModeInfo crt_rrmode;
 static XRRModeInfo *crt_mode;
-static XRRModeInfo crt_old_rrmode; 
+static XRRModeInfo  crt_old_rrmode;
 #endif
 
 typedef struct
@@ -76,24 +76,8 @@ static void x11_display_server_destroy(void *data)
    if (crt_en)
    {
       snprintf(xrandr, sizeof(xrandr),
-            "xrandr --newmode 700x480_59.94 13.849698 700 742 801 867 480 490 496 533 interlace -hsync -vsync");
+            "xrandr --newmode 700x480_59.94 13.849698 700 742 801 867 480 490 496 533 interlace -hsync -vsync && xrandr --addmode \"%s\" 700x480_59.94 && xrandr --output \"%s\" --mode 700x480_59.94 && xrandr --delmode \"%s\" \"%s\" && xrandr --rmmode \"%s\"", orig_output, orig_output, orig_output, old_mode, old_mode);
       system(xrandr);
-      snprintf(xrandr, sizeof(xrandr),
-            "xrandr --addmode \"%s\" 700x480_59.94",
-            orig_output);
-      system(xrandr);
-      snprintf(xrandr, sizeof(xrandr),
-            "xrandr --output \"%s\" --mode 700x480_59.94",
-            orig_output);
-      system(xrandr);
-      snprintf(xrandr, sizeof(xrandr),
-            "xrandr --delmode \"%s\" \"%s\"",
-            orig_output, old_mode);
-      system(xrandr);
-      snprintf(xrandr, sizeof(xrandr),
-            "xrandr --rmmode \"%s\"",
-            old_mode);
-      system(xrandr); 
 
    }
 #endif
@@ -142,7 +126,7 @@ static bool x11_display_server_set_resolution(void *data,
    Window window;
    XRRScreenResources  *res = NULL;
    Display *dpy             = NULL;
-   XID xid                  = NULL;
+   XID xid;
    int i                    = 0;
    int hfp                  = 0;
    int hsp                  = 0;
@@ -249,8 +233,8 @@ static bool x11_display_server_set_resolution(void *data,
    crt_rrmode.vSyncEnd = vsp;
    crt_rrmode.vTotal = vmax;
    crt_rrmode.name = new_mode;
-   crt_rrmode.nameLength = sizeof(new_mode);    
- 
+   crt_rrmode.nameLength = sizeof(new_mode);  
+   
    res = XRRGetScreenResources(dpy, window);
 
    if (monitor_index == 0)
@@ -259,67 +243,46 @@ static bool x11_display_server_set_resolution(void *data,
       {
          XRROutputInfo *outputs = XRRGetOutputInfo(dpy, res, res->outputs[i]);
          crt_mode = &crt_rrmode;
-         xid = res->outputs[i];
-
+       //  xid = res->outputs[i];
+       //  XID xid_mode = crt_rrmode.id;
+       
          if (outputs->connection == RR_Connected)
          {
             snprintf(orig_output, sizeof(orig_output), "%s", outputs->name);
-            XRRCreateMode(dpy, window, crt_mode);
-            snprintf(xrandr, sizeof(xrandr), "xrandr --addmode \"%s\" \"%s\"",outputs->name, new_mode);
-            system(xrandr);
-            snprintf(xrandr, sizeof(xrandr),
-                  "xrandr --output \"%s\" --mode \"%s\"",
-                  outputs->name, new_mode);
-            system(xrandr);
-            
-            if (crt_name_id > 0)
+            XRRCreateMode(dpy, window, crt_mode);           
+          //  XRRAddOutputMode(dpy, screen, xid_mode);
+            if (crt_name_id < 1)
             {  
-            snprintf(xrandr, sizeof(xrandr),
-                "xrandr --delmode \"%s\" \"%s\"",
-                orig_output, old_mode);
-            system(xrandr);
-            snprintf(xrandr, sizeof(xrandr),
-                  "xrandr --rmmode \"%s\"",
-                  old_mode);
-            
-            system(xrandr);
+               snprintf(xrandr, sizeof(xrandr), "xrandr --addmode \"%s\" \"%s\" && xrandr --output \"%s\" --mode \"%s\"",outputs->name, new_mode, outputs->name, new_mode);
+               system(xrandr);
+		    }else{
+		       snprintf(xrandr, sizeof(xrandr), "xrandr --addmode \"%s\" \"%s\" && xrandr --output \"%s\" --mode \"%s\" && xrandr --delmode \"%s\" \"%s\" && xrandr --rmmode \"%s\"",outputs->name, new_mode, outputs->name, new_mode, orig_output, old_mode, old_mode);
+		       system(xrandr);                
             }
          }
       }
-   }
+   } 
    else if (monitor_index > 0)
    {
       XRROutputInfo *outputs = XRRGetOutputInfo(dpy, res, res->outputs[monitor_index]);
       crt_mode = &crt_rrmode;
-      xid = res->outputs[monitor_index];
-      
-      RROutput output = res->outputs[monitor_index];
 
       if (outputs->connection == RR_Connected)
       {
-         snprintf(orig_output, sizeof(orig_output), "%s", outputs->name);
-         XRRCreateMode(dpy, window, crt_mode);
-         XRRAddOutputMode(dpy, xid, crt_rrmode.id);
-       //  XRRDeleteOutputMode (dpy, xid,
-        //            crt_old_rrmode.id);
-         snprintf(xrandr, sizeof(xrandr),
-               "xrandr --output \"%s\" --mode \"%s\"",
-               outputs->name, new_mode);
-         system(xranndr);
-         if (crt_name_id > 0)
-         {  
-             snprintf(xrandr, sizeof(xrandr),
-                "xrandr --delmode \"%s\" \"%s\"",
-                orig_output, old_mode);
-             system(xrandr);
-             snprintf(xrandr, sizeof(xrandr),
-                  "xrandr --rmmode \"%s\"",
-                  old_mode);
-            
+            snprintf(orig_output, sizeof(orig_output), "%s", outputs->name);
+            XRRCreateMode(dpy, window, crt_mode);           
+        //  XRRAddOutputMode(dpy, screen, xid_mode);
+            if (crt_name_id == 0)
+            {  
+               snprintf(xrandr, sizeof(xrandr), "xrandr --addmode \"%s\" \"%s\" && xrandr --output \"%s\" --mode \"%s\"", outputs->name, new_mode, outputs->name, new_mode);
             system(xrandr);
+		    }else{
+		       snprintf(xrandr, sizeof(xrandr), "xrandr --addmode \"%s\" \"%s\" && xrandr --output \"%s\" --mode \"%s\" && xrandr --delmode \"%s\" \"%s\" && xrandr --rmmode \"%s\"",outputs->name, new_mode, outputs->name, new_mode, orig_output, old_mode, old_mode);
+		       system(xrandr);                
+            }
          }
       }
-   }
+   
 
    if (crt_debug_mode_active() == true)
    {
@@ -339,22 +302,9 @@ static bool x11_display_server_set_resolution(void *data,
 	  printf("%s",crt_debug_output);
    }
 
-  
-   
-   if (crt_name_id > 0)
-   {  
-  //    XRRDestroyMode(dpy, crt_old_rrmode.id);
-      snprintf(xrandr, sizeof(xrandr),
-         "xrandr --rmmode \"%s\"",
-         old_mode);
-      system(xrandr);
-   }
-
    snprintf(old_mode, sizeof(old_mode), "%s", new_mode);
    crt_old_rrmode = crt_rrmode;
    crt_id += 1; 
-   
-  // XCloseDisplay(dpy);
   
    return true;
 }
@@ -399,8 +349,8 @@ const char *x11_display_server_get_output_options(void *data)
 static void x11_display_server_set_screen_orientation(enum rotation rotation)
 {
    
-   int i, j;
-   XRRScreenResources *screen;
+ /*  int i, j;
+   XRRScreenResources *screen; */
    /* switched to 
     * using XOpenDisplay() due to deinit order issue with g_x11_dpy when restoring original rotation on exit */
   /* Display *dpy = XOpenDisplay(0);
@@ -550,7 +500,7 @@ static enum rotation x11_display_server_get_screen_orientation(void)
    }
    return rotation;
 */
-   retrurn 0;
+   return 0;
 }
 #endif
 
