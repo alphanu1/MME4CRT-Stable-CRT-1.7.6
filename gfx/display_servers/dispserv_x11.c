@@ -259,14 +259,10 @@ static bool x11_display_server_set_resolution(void *data,
             snprintf(orig_output, sizeof(orig_output), "%s", outputs->name);
           //  XRRCreateMode(dpy, window, crt_mode);           
           //  XRRAddOutputMode(dpy, screen, xid_mode);
-            if (crt_name_id < 1)
-            {  
-               snprintf(xrandr, sizeof(xrandr), "%s && xrandr --addmode \"%s\" \"%s\" && xrandr --output \"%s\" --mode \"%s\"", xrandr_new_mode, outputs->name, new_mode, outputs->name, new_mode);
-               system(xrandr);
-		    }else{
+       
 		       snprintf(xrandr, sizeof(xrandr), "%s && xrandr --addmode \"%s\" \"%s\" && xrandr --output \"%s\" --mode \"%s\" && xrandr --delmode \"%s\" \"%s\" && xrandr --rmmode \"%s\"", xrandr_new_mode, outputs->name, new_mode, outputs->name, new_mode, orig_output, old_mode, old_mode);
 		       system(xrandr);                
-            }
+            
          }
       }
    } 
@@ -280,14 +276,10 @@ static bool x11_display_server_set_resolution(void *data,
             snprintf(orig_output, sizeof(orig_output), "%s", outputs->name);
          //  XRRCreateMode(dpy, window, crt_mode);           
         //  XRRAddOutputMode(dpy, screen, xid_mode);
-            if (crt_name_id == 0)
-            {  
-               snprintf(xrandr, sizeof(xrandr), "%s && xrandr --addmode \"%s\" \"%s\" && xrandr --output \"%s\" --mode \"%s\"", xrandr_new_mode, outputs->name, new_mode, outputs->name, new_mode);
-            system(xrandr);
-		    }else{
+
 		       snprintf(xrandr, sizeof(xrandr), "%s && xrandr --addmode \"%s\" \"%s\" && xrandr --output \"%s\" --mode \"%s\" && xrandr --delmode \"%s\" \"%s\" && xrandr --rmmode \"%s\"", xrandr_new_mode, outputs->name, new_mode, outputs->name, new_mode, orig_output, old_mode, old_mode);
 		       system(xrandr);                
-            }
+            
          }
       }
    
