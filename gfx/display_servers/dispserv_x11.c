@@ -163,7 +163,7 @@ static bool x11_display_server_set_resolution(void *data,
    crt_name_id += 1;
    snprintf(crt_name, sizeof(crt_name), "CRT%d", crt_name_id);
 
-   dpy = XOpenDisplay(0);
+   dpy = g_x11_dpy;
    screen = DefaultScreen(dpy);
    window = RootWindow(dpy, screen);
 
@@ -399,13 +399,12 @@ const char *x11_display_server_get_output_options(void *data)
 #ifdef HAVE_XRANDR
 static void x11_display_server_set_screen_orientation(enum rotation rotation)
 {
-   if (crt_en == false)
-   {
+   
    int i, j;
    XRRScreenResources *screen;
    /* switched to 
     * using XOpenDisplay() due to deinit order issue with g_x11_dpy when restoring original rotation on exit */
-   Display *dpy = XOpenDisplay(0);
+  /* Display *dpy = XOpenDisplay(0);
    XRRScreenConfiguration *config = XRRGetScreenInfo(dpy, DefaultRootWindow(dpy));
    double dpi = (25.4 * DisplayHeight(dpy, DefaultScreen(dpy))) / DisplayHeightMM(dpy, DefaultScreen(dpy));
 
@@ -488,14 +487,14 @@ static void x11_display_server_set_screen_orientation(enum rotation rotation)
    XSync(dpy, False);
    XRRFreeScreenConfigInfo(config);
    XCloseDisplay(dpy);
-   }
+   */
 }
 #endif
 
 #ifdef HAVE_XRANDR
 static enum rotation x11_display_server_get_screen_orientation(void)
 {
-
+/*
    int i, j;
    XRRScreenResources *screen = XRRGetScreenResources(g_x11_dpy, DefaultRootWindow(g_x11_dpy));
    XRRScreenConfiguration *config = XRRGetScreenInfo(g_x11_dpy, DefaultRootWindow(g_x11_dpy));
@@ -551,7 +550,8 @@ static enum rotation x11_display_server_get_screen_orientation(void)
    XRRFreeScreenConfigInfo(config);
    }
    return rotation;
-
+*/
+   retrurn 0;
 }
 #endif
 
