@@ -219,8 +219,8 @@ static bool x11_display_server_set_resolution(void *data,
    {
       pixel_clock = (hmax * vmax * hz) / 1000000 / 2;
       pixel_clock2 = (hmax * vmax * hz)/ 2;
-  //    snprintf(xrandr_new_mode, sizeof(xrandr_new_mode), "xrandr --newmode \"%s_%dx%d_%0.2f\" %f %d %d %d %d %d %d %d %d interlace -hsync -vsync",crt_name, width, height, hz, pixel_clock,
-    //        width, hfp, hsp, hbp, height, vfp, vsp, vbp);
+      snprintf(xrandr_new_mode, sizeof(xrandr_new_mode), "xrandr --newmode \"%s_%dx%d_%0.2f\" %f %d %d %d %d %d %d %d %d interlace -hsync -vsync",crt_name, width, height, hz, pixel_clock,
+            width, hfp, hsp, hbp, height, vfp, vsp, vbp);
       crt_rrmode.modeFlags += 16;
    }
    /* above code is the modeline generator */  
@@ -282,8 +282,8 @@ static bool x11_display_server_set_resolution(void *data,
       XRROutputInfo *outputs = XRRGetOutputInfo(dpy, res, res->outputs[monitor_index]);
       crt_mode = &crt_rrmode;
 
-      if (outputs->connection == RR_Connected)
-      {
+    //  if (outputs->connection == RR_Connected)
+   //   {
             snprintf(orig_output, sizeof(orig_output), "%s", outputs->name);
          //   XRRCreateMode(dpy, window, crt_mode);
          
@@ -300,7 +300,7 @@ static bool x11_display_server_set_resolution(void *data,
 		       snprintf(xrandr, sizeof(xrandr), "xrandr  --current --addmode \"%s\" \"%s\" && xrandr --current --output \"%s\" --mode \"%s\" && xrandr --current --delmode \"%s\" \"%s\" && xrandr --current --rmmode \"%s\"", outputs->name, new_mode, outputs->name, new_mode, orig_output, old_mode, old_mode);
 		       system(xrandr);                
             }
-      }
+     // }
    }
    
 
