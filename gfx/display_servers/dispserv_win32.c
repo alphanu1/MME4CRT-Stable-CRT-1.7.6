@@ -235,6 +235,8 @@ static bool win32_display_server_set_resolution(void *data,
    win32_orig_refresh        = curDevmode.dmDisplayFrequency;
    if (win32_orig_height == 0)
       win32_orig_height         = GetSystemMetrics(SM_CYSCREEN);
+      
+   crt_screen_setup_aspect(width, height);
 
    /* Used to stop super resolution bug */
    if (width == curDevmode.dmPelsWidth)
