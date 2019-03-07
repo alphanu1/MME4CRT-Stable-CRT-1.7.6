@@ -160,7 +160,7 @@ static bool x11_display_server_set_resolution(void *data,
 
    /* set core refresh from hz */
    video_monitor_set_refresh_rate(hz);
-   crt_screen_setup_aspect(width, height);
+   //crt_screen_setup_aspect(width, height);
 
    /* following code is the mode line generator */
    if (width < 700)
