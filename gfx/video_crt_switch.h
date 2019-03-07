@@ -31,6 +31,8 @@ void crt_switch_res_core(unsigned width, unsigned core_width, unsigned height, f
 
 void crt_aspect_ratio_switch(unsigned width, unsigned height);
 
+void crt_screen_setup_aspect(unsigned width, unsigned height);
+
 void crt_video_restore(void);
 
 bool crt_debug_mode_active(void);
