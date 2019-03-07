@@ -108,6 +108,8 @@ bool crt_debug_mode_active(void)
 
 void crt_aspect_ratio_switch(unsigned width, unsigned height)
 {
+   ra_core_width = width;
+   ra_core_height = height;
    /* send aspect float to video_driver */
    fly_aspect = (float)width / height;
    video_driver_set_aspect_ratio_value((float)fly_aspect);
@@ -281,9 +283,11 @@ void crt_switch_res_core(unsigned width, unsigned core_width, unsigned height,
       (ra_tmp_height != ra_core_height) ||
       (ra_core_width != ra_tmp_width) || (crt_center_adjust != crt_tmp_center_adjust)
       )
-      {  
+      {
+      crt_screen_setup_aspect(width, height);
       switch_res_crt(ra_core_width, ra_core_height);
       }
+      
    ra_tmp_height  = ra_core_height;
    ra_tmp_width   = ra_core_width;
    crt_tmp_center_adjust = crt_center_adjust;
