@@ -81,8 +81,8 @@ static void x11_display_server_destroy(void *data)
       system(xrandr);
       snprintf(xrandr, sizeof(xrandr), "xrandr --output \"%s\" --mode 1920x480_59.94" ,orig_output);
       system(xrandr);
-      snprintf(xrandr, sizeof(xrandr), "xrandr --output \"%s\" --scale-from 640x480", orig_output);
-      system(xrandr);
+    //  snprintf(xrandr, sizeof(xrandr), "xrandr --output \"%s\" --scale-from 640x480", orig_output);
+   //   system(xrandr);
       snprintf(xrandr, sizeof(xrandr),"xrandr --delmode \"%s\" \"%s\" && xrandr --rmmode \"%s\"", orig_output, old_mode, old_mode);
       system(xrandr);
 
