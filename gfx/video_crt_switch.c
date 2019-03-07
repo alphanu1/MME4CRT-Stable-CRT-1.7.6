@@ -204,10 +204,13 @@ void crt_switch_res_core(unsigned width, unsigned core_width, unsigned height,
    crt_switch_debug = crt_debug_mode;
    native_core_width = core_width;
    
+   if (height == 4 )
+   {
+      height = 240;
+   }
    if (width == 4 )
    {
       width = 320;
-      height = 240;
    }
 
   if (height > 350 && hz > 58 && hz < 62)
