@@ -192,7 +192,6 @@ static void crt_screen_setup_aspect(unsigned width, unsigned height)
       height = 254;
    }
 
-   switch_res_crt(width, height);
 }
 
 void crt_switch_res_core(unsigned width, unsigned core_width, unsigned height,
@@ -279,8 +278,9 @@ void crt_switch_res_core(unsigned width, unsigned core_width, unsigned height,
       (ra_tmp_height != ra_core_height) ||
       (ra_core_width != ra_tmp_width) || (crt_center_adjust != crt_tmp_center_adjust)
       )
-      crt_screen_setup_aspect(ra_core_width, ra_core_height);
-
+      {  
+      switch_res_crt(ra_core_width, ra_core_height);
+      }
    ra_tmp_height  = ra_core_height;
    ra_tmp_width   = ra_core_width;
    crt_tmp_center_adjust = crt_center_adjust;
