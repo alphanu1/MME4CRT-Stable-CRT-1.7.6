@@ -297,12 +297,12 @@ static bool x11_display_server_set_resolution(void *data,
             {  
 			   snprintf(xrandr, sizeof(xrandr), "%s", xrandr_new_mode);
                system(xrandr);
-               snprintf(xrandr, sizeof(xrandr), "xrandr --addmode \"%s\" \"%s\" && xrandr --output \"%s\" --mode \"%s\" --scale-from %dx%d", outputs->name, new_mode, outputs->name, new_mode, core_width, height);
+               snprintf(xrandr, sizeof(xrandr), "xrandr --addmode \"%s\" \"%s\" && xrandr --output \"%s\" --mode \"%s\"", outputs->name, new_mode, outputs->name, new_mode);
                system(xrandr);
 		    }else if (crt_name_id > 0){
 			   snprintf(xrandr, sizeof(xrandr), "%s", xrandr_new_mode);
                system(xrandr);
-		       snprintf(xrandr, sizeof(xrandr), "xrandr  --addmode \"%s\" \"%s\" && xrandr --output \"%s\" --mode \"%s\" --scale-from %dx%d && xrandr --delmode \"%s\" \"%s\" && xrandr --rmmode \"%s\"", outputs->name, new_mode, outputs->name, new_mode, core_width, height, outputs->name, old_mode, old_mode);
+		       snprintf(xrandr, sizeof(xrandr), "xrandr  --addmode \"%s\" \"%s\" && xrandr --output \"%s\" --mode \"%s\" && xrandr --delmode \"%s\" \"%s\" && xrandr --rmmode \"%s\"", outputs->name, new_mode, outputs->name, new_mode, outputs->name, old_mode, old_mode);
 		       system(xrandr);                
             }
       }
