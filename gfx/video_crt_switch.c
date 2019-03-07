@@ -127,7 +127,7 @@ static void switch_res_crt(unsigned width, unsigned height)
 }
 
 /* Create correct aspect to fit video if resolution does not exist */
-static void crt_screen_setup_aspect(unsigned width, unsigned height)
+void crt_screen_setup_aspect(unsigned width, unsigned height)
 {
 #if defined(HAVE_VIDEOCORE)
    if (height > 300)
