@@ -215,47 +215,7 @@ void crt_switch_res_core(unsigned width, unsigned core_width, unsigned height,
       width = 320;
    }
 
-  if (height > 350 && hz > 58 && hz < 62)
-  { 
-      if (crt_vsync_interval_t  == 0)
-      {	   
    
-         crt_vsync_interval = 1;
-   
-      
-         crt_switch_vsync(crt_vsync_interval); 
-         video_driver_apply_state_changes();
-  
-      }
-   
-      crt_vsync_interval_t++;
-      
-      if (crt_vsync_interval_t == 1)
-      {
-   
-         crt_vsync_interval = 0;
-             
-         crt_switch_vsync(crt_vsync_interval); 
-         video_driver_apply_state_changes();
-
-      }
-      if (crt_vsync_interval_t == 9)
-         crt_vsync_interval_t = 0;
-   
-  }   
-   
-  if (height <= 300)
-  { 
-     if (crt_vsync_interval == 0)
-     {
-         crt_vsync_interval = 1;
-         crt_switch_vsync(crt_vsync_interval); 
-         video_driver_apply_state_changes();
-          
-      }
-   } 
-   
-     
    ra_core_height = height;
    ra_core_hz     = hz;
 
