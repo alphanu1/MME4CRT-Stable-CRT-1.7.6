@@ -168,8 +168,8 @@ static bool x11_display_server_set_resolution(void *data,
       hfp    = (width * 1.033);
       hbp  = width * 1.225;
    }else {
-      hfp  = (width * 1.033) + (width / 32);
-      hbp  = (width * 1.225) + (width /18);
+      hfp  = (width * 1.033) + (width / 96);
+      hbp  = (width * 1.225) + (width /54);
       xoffset = xoffset*2;
    }
    
