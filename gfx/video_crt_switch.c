@@ -122,9 +122,10 @@ static void switch_res_crt(unsigned width, unsigned height)
 #if defined(HAVE_VIDEOCORE)
    crt_rpi_switch(ra_core_width, native_core_width, height, ra_core_hz);
    video_monitor_set_refresh_rate(ra_core_hz);
+      crt_switch_driver_reinit();
 #endif
    video_driver_apply_state_changes();
-   crt_switch_driver_reinit();
+
    
 }
 
