@@ -177,11 +177,11 @@ static bool x11_display_server_set_resolution(void *data,
 
    hmax = hbp;
 
-   if (height < 241)
+   if (height < 245)
       vmax = 261;
-   if (height < 241 && hz > 56 && hz < 58)
+   if (height < 245 && hz > 56 && hz < 58)
       vmax = 280;
-   if (height < 241 && hz < 55)
+   if (height < 245 && hz < 55)
       vmax = 313;
    if (height > 250 && height < 260 && hz > 54)
       vmax = 296;
