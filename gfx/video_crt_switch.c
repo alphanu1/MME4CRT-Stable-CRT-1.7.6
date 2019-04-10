@@ -280,7 +280,7 @@ int crt_compute_dynamic_width(int width)
 #if defined(HAVE_VIDEOCORE)
    p_clock             = 32000000;
 #else
-   p_clock             = 20000000;
+   p_clock             = 21000000;
 #endif
 
    for (i = 0; i < 10; i++)
