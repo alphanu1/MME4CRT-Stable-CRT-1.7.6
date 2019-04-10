@@ -77,9 +77,9 @@ static void x11_display_server_destroy(void *data)
    if (crt_en)
    {
       snprintf(xrandr, sizeof(xrandr),
-            "xrandr --newmode 1920x480_59.94 39.246116 1920 2043 2160 2458 480 490 496 533 interlace -hsync -vsync && xrandr --addmode \"%s\" 1920x480_59.94 ",orig_output);
+            "xrandr --newmode \"1400x480_desk\" 28.654080 1400 1489 1563 1792 480 490 496 533 interlace -hsync -vsync && xrandr --addmode \"%s\" 1400x480_desk ",orig_output);
       system(xrandr);
-      snprintf(xrandr, sizeof(xrandr), "xrandr --output \"%s\" --mode 1920x480_59.94" ,orig_output);
+      snprintf(xrandr, sizeof(xrandr), "xrandr --output \"%s\" --mode 1400x480_desk" ,orig_output);
       system(xrandr);
     //  snprintf(xrandr, sizeof(xrandr), "xrandr --output \"%s\" --scale-from 640x480", orig_output);
    //   system(xrandr);
