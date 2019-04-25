@@ -177,36 +177,36 @@ static bool x11_display_server_set_resolution(void *data,
 
    hmax = hbp;
 
-   if (height < 245)
+   if (height <= 245)
       vmax = 261;
-   if (height < 245 && hz > 56 && hz < 58)
+   if (height <= 245 && hz > 56 && hz < 58)
       vmax = 280;
-   if (height < 245 && hz < 55)
+   if (height <= 245 && hz < 55)
       vmax = 313;
-   if (height > 250 && height < 260 && hz > 54)
+   if (height > 245 && height < 260 && hz > 54)
       vmax = 296;
-   if (height > 250 && height < 260 && hz > 52 && hz < 54)
+   if (height > 245 && height < 260 && hz > 52 && hz < 54)
       vmax = 285;
-   if (height > 250 && height < 260 && hz < 52)
+   if (height > 245 && height < 260 && hz < 52)
       vmax = 313;
-   if (height > 260 && height < 300)
+   if (height >= 260 && height < 300)
       vmax = 318;
-   if (height > 400 && hz > 56)
+   if (height >= 400 && hz > 56)
       vmax = 533;
-   if (height > 520 && hz < 57)
+   if (height >= 520 && hz < 57)
       vmax = 580;
-   if (height > 300 && hz < 56)
+   if (height >= 300 && hz < 56)
       vmax = 615;
    if (height > 500 && hz < 56)
       vmax = 624;
-   if (height > 300)
+   if (height >= 300)
       pdefault = pdefault * 2;
 
    vfp = height + ((vmax - height) / 2) - pdefault;
 
    if (height < 300)
       vsp = vfp + 3; /* needs to be 3 for progressive */
-   if (height > 300)
+   if (height >= 300)
       vsp = vfp + 6; /* needs to be 6 for interlaced */
 
    vbp = vmax;
