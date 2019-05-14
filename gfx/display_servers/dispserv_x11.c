@@ -191,7 +191,7 @@ static bool x11_display_server_set_resolution(void *data,
       vmax = 313;
    if (height >= 260 && height < 300)
       vmax = 318;
-   if (height >= 400 && hz > 56)
+   if (height >= 380 && hz > 56)
       vmax = 533;
    if (height >= 520 && hz < 57)
       vmax = 580;
